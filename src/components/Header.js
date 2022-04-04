@@ -1,8 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FecthApi } from '../actions';
 
 class Header extends Component {
+  componentDidMount() {
+  // requisição da api
+  // console.log('Olá', this.props);
+    const { currencies } = this.props;
+    currencies();
+  }
+
   render() {
     const { user } = this.props;
 
@@ -28,10 +36,15 @@ const mapStateToProps = (store) => ({
   ...store,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  currencies: () => dispatch(FecthApi()),
+});
+
 Header.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
   }).isRequired,
+  currencies: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

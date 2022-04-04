@@ -1,19 +1,32 @@
 // Esse reducer será responsável por tratar todas as informações relacionadas as despesas
 
-import { CONTROL_EXPENSES } from '../actions';
+import { RECEIVE_CURRENCIES, RECEIVE_CURR_FAILURE, REQUEST_CURRENCIES } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
+  isFetching: false,
+  error: null,
 };
 
 function walletReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case CONTROL_EXPENSES:
+  case REQUEST_CURRENCIES:
     return {
       ...state,
-      currencies: action.currencies,
-      expenses: action.expenses,
+      isFetching: true,
+    };
+  case RECEIVE_CURRENCIES:
+    return {
+      ...state,
+      isFetching: false,
+      currencies: Object.keys(action.currencies).filter((key) => key !== 'USDT'), // remove das infos trazidas pela API a opção USDT.
+    };
+  case RECEIVE_CURR_FAILURE:
+    return {
+      ...state,
+      isFetching: false,
+      error: action.error,
     };
   default:
     return state;

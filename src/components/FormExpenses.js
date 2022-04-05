@@ -19,7 +19,7 @@ class FormExpenses extends Component {
     const { value, description, currency, method, tag } = this.state;
 
     return (
-      <form classsName="form-expenses">
+      <form className="form-expenses">
         <label htmlFor="value-input">
           Valor:
           <input
@@ -47,7 +47,8 @@ class FormExpenses extends Component {
           Moeda:
           <select
             data-testid="currency-input"
-            name="currencyInput"
+            name="currency-input"
+            id="currency-input"
             value={ currency }
           >
             {

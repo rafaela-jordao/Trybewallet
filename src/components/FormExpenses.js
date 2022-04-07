@@ -7,8 +7,8 @@ class FormExpenses extends Component {
   constructor() {
     super();
     this.state = {
-      id: '0',
-      value: '0',
+      id: 0,
+      value: 0,
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
@@ -88,6 +88,7 @@ class FormExpenses extends Component {
           Método de pagamento:
           <select
             data-testid="method-input"
+            id="method-input"
             name="method"
             value={ method }
             onChange={ this.handleChange }
@@ -104,6 +105,7 @@ class FormExpenses extends Component {
           <select
             data-testid="tag-input"
             name="tag"
+            id="tag-input"
             value={ tag }
             onChange={ this.handleChange }
 

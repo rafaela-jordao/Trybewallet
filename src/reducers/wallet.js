@@ -1,6 +1,11 @@
 // Esse reducer será responsável por tratar todas as informações relacionadas as despesas
 
-import { RECEIVE_CURRENCIES, RECEIVE_CURR_FAILURE, REQUEST_CURRENCIES } from '../actions';
+import {
+  RECEIVE_CURRENCIES,
+  RECEIVE_CURR_FAILURE,
+  RECEIVE_EXPENSES,
+  REQUEST_CURRENCIES
+} from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -28,6 +33,13 @@ function walletReducer(state = INITIAL_STATE, action) {
       isFetching: false,
       error: action.error,
     };
+  case RECEIVE_EXPENSES:
+    return {
+      ...state,
+      expenses: [...state.expenses, { ...action.expenses, exchangeRates: { ...action.result } }],
+
+    };
+
   default:
     return state;
   }

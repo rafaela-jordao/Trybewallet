@@ -1,28 +1,30 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FecthApi } from '../actions';
 
 class Header extends Component {
-  componentDidMount() {
-  // requisição da api
-  // console.log('Olá', this.props);
-    const { currencies } = this.props;
-    currencies();
+  // req.6 - atualiza a soma das despesas
+  sumExpenses(expenses) {
+    const value = expenses.reduce((acc, valorAtual) => {
+      const total = valorAtual.value * valorAtual.exchangeRates[valorAtual.currency].ask;
+      acc += total;
+      return acc;
+    }, 0);
+    return value;
   }
 
   render() {
-    const { user } = this.props;
+    const { email, expenses } = this.props;
 
     return (
       <header className="header">
 
         <div data-testid="email-field">
-          {user.email}
+          { email}
         </div>
         <div>
           Despesa Total:
-          <span data-testid="total-field"> R$0</span>
+          <p data-testid="total-field" value="0">{this.sumExpenses(expenses).toFixed(2)}</p>
         </div>
         <div data-testid="header-currency-field">BRL</div>
 
@@ -33,18 +35,16 @@ class Header extends Component {
 }
 
 const mapStateToProps = (store) => ({
-  ...store,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  currencies: () => dispatch(FecthApi()),
+  email: store.user.email,
+  expenses: store.wallet.expenses,
 });
 
 Header.propTypes = {
-  user: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-  }).isRequired,
-  currencies: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  expenses: PropTypes.arrayOf.isRequired,
+
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, null)(Header);
+
+// referência: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce

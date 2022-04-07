@@ -1,17 +1,37 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FecthExpenses } from '../actions';
 
 class FormExpenses extends Component {
   constructor() {
     super();
     this.state = {
-      value: '',
+      id: '0',
+      value: '0',
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     };
+  }
+
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  }
+
+  // salva as infos de despesa após clicar no botão
+  btnExpenses = () => {
+    const { dispatchExpenses } = this.props;
+    const { id, value, description, currency, method, tag } = this.state;
+    dispatchExpenses({ id, value, description, currency, method, tag });
+
+    this.setState((previState) => ({
+      id: previState.id + 1,
+      value: 0,
+      description: '',
+    }));
   }
 
   render() {
@@ -25,9 +45,11 @@ class FormExpenses extends Component {
           <input
             data-testid="value-input"
             type="number"
-            name="valueInput"
+            name="value"
             id="value"
             value={ value }
+            onChange={ this.handleChange }
+
           />
         </label>
 
@@ -39,6 +61,7 @@ class FormExpenses extends Component {
             id="description"
             name="description"
             value={ description }
+            onChange={ this.handleChange }
 
           />
         </label>
@@ -47,9 +70,11 @@ class FormExpenses extends Component {
           Moeda:
           <select
             data-testid="currency-input"
-            name="currency-input"
+            name="currency"
             id="currency-input"
             value={ currency }
+            onChange={ this.handleChange }
+
           >
             {
               currencies.map((el) => (
@@ -63,8 +88,10 @@ class FormExpenses extends Component {
           Método de pagamento:
           <select
             data-testid="method-input"
-            name="methodInput"
+            name="method"
             value={ method }
+            onChange={ this.handleChange }
+
           >
             <option value="Dinheiro">Dinheiro</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
@@ -76,8 +103,10 @@ class FormExpenses extends Component {
           Categoria:
           <select
             data-testid="tag-input"
-            name="tagInput"
+            name="tag"
             value={ tag }
+            onChange={ this.handleChange }
+
           >
             <option value="Alimentacao">Alimentação</option>
             <option value="Lazer">Lazer</option>
@@ -87,6 +116,14 @@ class FormExpenses extends Component {
           </select>
         </label>
 
+        <button
+          type="button"
+          onClick={ this.btnExpenses }
+        >
+          Adicionar despesa
+
+        </button>
+
       </form>
     );
   }
@@ -94,10 +131,16 @@ class FormExpenses extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchExpenses: (expenses) => dispatch(FecthExpenses(expenses)),
 });
 
 FormExpenses.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dispatchExpenses: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(FormExpenses);
+export default connect(mapStateToProps, mapDispatchToProps)(FormExpenses);

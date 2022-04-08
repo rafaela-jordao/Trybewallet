@@ -4,7 +4,7 @@ import {
   RECEIVE_CURRENCIES,
   RECEIVE_CURR_FAILURE,
   RECEIVE_EXPENSES,
-  REQUEST_CURRENCIES
+  REQUEST_CURRENCIES,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -36,7 +36,8 @@ function walletReducer(state = INITIAL_STATE, action) {
   case RECEIVE_EXPENSES:
     return {
       ...state,
-      expenses: [...state.expenses, { ...action.expenses, exchangeRates: { ...action.result } }],
+      expenses: [...state.expenses,
+        { ...action.expenses, exchangeRates: { ...action.result } }],
 
     };
 

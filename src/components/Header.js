@@ -24,7 +24,13 @@ class Header extends Component {
         </div>
         <div>
           Despesa Total:
-          <p data-testid="total-field" value="0">{this.sumExpenses(expenses).toFixed(2)}</p>
+          <p
+            data-testid="total-field"
+            value="0"
+          >
+            {this.sumExpenses(expenses).toFixed(2)}
+
+          </p>
         </div>
         <div data-testid="header-currency-field">BRL</div>
 

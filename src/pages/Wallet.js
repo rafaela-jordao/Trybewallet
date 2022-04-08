@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { FecthApi } from '../actions';
 import FormExpenses from '../components/FormExpenses';
 import Header from '../components/Header';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   componentDidMount() {
@@ -18,6 +19,7 @@ class Wallet extends React.Component {
       <div>
         <Header />
         <FormExpenses />
+        <Table />
       </div>
     );
   }

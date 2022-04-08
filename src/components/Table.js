@@ -9,9 +9,9 @@ class Table extends Component {
           <tr>
             <th>Valor</th>
             <th>Descrição</th>
-            <th>Tag</th>
-            <th>Método de pagamento</th>
             <th>Moeda</th>
+            <th>Método de pagamento</th>
+            <th>Tag</th>
             <th>Câmbio utilizado</th>
             <th>Valor convertido</th>
             <th>Moeda de conversão</th>
